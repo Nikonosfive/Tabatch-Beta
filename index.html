@@ -1,0 +1,1273 @@
+<!DOCTYPE html>
+<html lang="jp">
+
+<head>
+  <title>Tabatch</title>
+  <meta name=”viewport” content=”width=device-width,initial-scale=1″>
+  <meta name="description" content="Tabatch / タバッチ！｜軽量・多機能な時間管理ツール。">
+  <meta name="keywords" content="Tabatch, Watch, T.A Design Room, TADR, Online Watch, 時計">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <link rel="stylesheet" type="text/css" href="CSS/style.css" />
+  <link rel="icon" href="img/logo.svg" />
+  <link rel="manifest" href="manifest.json" />
+  <link rel="apple-touch-icon" href="img/ios_logo.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Noto+Sans:ital,wght@0,100..900;1,100..900&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap"
+    rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Jersey+10+Charted&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Zen+Old+Mincho&display=swap" rel="stylesheet">
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-199SL59897"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+
+    function gtag() {
+      dataLayer.push(arguments);
+    }
+    gtag('js', new Date());
+    gtag('config', 'G-199SL59897');
+  </script>
+  <script>
+    if ("serviceWorker" in navigator) {
+      navigator.serviceWorker.register("/sw.js")
+        .then((registration) => {
+          console.log("Service Worker registered with scope:", registration.scope);
+        })
+        .catch((error) => {
+          console.error("Service Worker registration failed:", error);
+        });
+    }
+  </script>
+  <script>
+    let startX = 0;
+    let endX = 0;
+    const labels = ["STWTab", "WATTab", "TIMTab"];
+    document.addEventListener("touchstart", (e) => {
+      startX = e.touches[0].clientX;
+    });
+    document.addEventListener("touchend", (e) => {
+      endX = e.changedTouches[0].clientX;
+      handleSwipe();
+    });
+
+    function handleSwipe() {
+      const swipeThreshold = 50;
+      const direction = endX - startX;
+      const currentTab = labels.findIndex(id => document.getElementById(id).checked);
+      if (Math.abs(direction) > swipeThreshold) {
+        if (direction > 0 && currentTab > 0) {
+          // 左から右へのフリック
+          document.getElementById(labels[currentTab - 1]).checked = true;
+        } else if (direction < 0 && currentTab < labels.length - 1) {
+          // 右から左へのフリック
+          document.getElementById(labels[currentTab + 1]).checked = true;
+        }
+      }
+    }
+  </script>
+</head>
+
+<body class="tempo" id="tbtBody">
+  <div class="takami">
+    <div class="area">
+      <button class="dropdown__btn" id="setTabBtn">
+        <div class="ten" title="ドロップダウンメニューを開く"><svg version="1.1" id="_x32_" xmlns="http://www.w3.org/2000/svg"
+            xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 600 600"
+            style="width: 1.3rem; height: 1.3rem; ;" xml:space="preserve">
+            <style type="text/css">
+              .st0 {
+                fill: var(--mainColor);
+              }
+            </style>
+            <g>
+              <circle class="st0" cx="256" cy="55.091" r="55.091"></circle>
+              <circle class="st0" cx="256" cy="256" r="55.091"></circle>
+              <circle class="st0" cx="256" cy="456.909" r="55.091"></circle>
+            </g>
+          </svg></div>
+      </button>
+      <div class="dropdown__body">
+        <ul class="dropdown__list">
+          <li class="dropdown__item">
+            <div class="a-contents" id="setTIMGroup">
+              <p class="midashi"><a>Timer Settings</a></p>
+              <div class="sayu">
+                  <div class="left">
+                    <p class="yohaku">
+                      <a>Hour</a>
+                    </p>
+                  </div>
+                  <div class="right">
+                    <p class="yohaku" id="setTIMhour">
+                      <input type="range" min="00" max="99" step="1" value="0" class="ranges" />
+                      <input type="number" min="00" max="99" step="1" value="0" class="input-tag">
+                    </p>
+                  </div>
+              </div>
+              <div class="sayu">
+                <div class="left">
+                  <p class="yohaku">
+                    <a>Minute</a>
+                  </p>
+                </div>
+                <div class="right">
+                  <p class="yohaku" id="setTIMmin">
+                    <input type="range" min="00" max="59" step="1" 
+                    value="0" class="ranges" />
+                    <input type="number" min="00" max="59" step="1" value="0" class="input-tag">
+                  </p>
+                </div>
+              </div>
+              <div class="sayu">
+                <div class="left">
+                  <p class="yohaku">
+                    <a>Second</a>
+                  </p>
+                </div>
+                <div class="right">
+                  <p class="yohaku" id="setTIMsec">
+                    <input type="range" min="00" max="59" step="1" value="30" class="ranges" />
+                    <input type="number" min="00" max="59" step="1" value="30" class="input-tag">
+                  </p>
+                </div>
+              </div>
+            </div>
+          </li>
+          <li class="dropdown__item">
+            <div class="a-contents">
+              <p class="midashi"><a>Color Settings</a></p>
+                <div class="sayu">
+                  <div class="left">
+                    <p class="yohaku">
+                      <a>Presets</a>
+                    </p>
+                  </div>
+                  <div class="right">
+                    <p class="yohaku">
+                      <input type="image" src="icons/w_b.svg" class="svg-icon" value="LightMode"
+                  onClick="changeColor('#000000', '#FFFFFF')" title="背景：白 / 文字：黒">
+                <input type="image" src="icons/b_w.svg" class="svg-icon" value="DarkMode"
+                  onClick="changeColor('#FFFFFF', '#000000')" title="背景：黒 / 文字：白">
+                <input type="image" src="icons/bl_g.svg" class="svg-icon" value="BIOS Mode"
+                  onClick="changeColor('#cacaca','#0000ff')" title="背景：青 / 文字：灰">
+                <input type="image" src="icons/b_gr.svg" class="svg-icon" value="PRO Mode"
+                  onClick="changeColor('#00FF00', '#000000')" title="背景：黒 / 文字：黄緑">
+                    </p>
+                  </div>
+                </div>
+                <div class="sayu">
+                  <div class="left">
+                    <p class="yohaku">
+                      <a>Custom</a>
+                    </p>
+                  </div>
+                  <div class="right">
+                    <p class="yohaku">
+                      <input type="color" id="change_bgColor" class="button-sousyoku-pa" title="背景色を選択する">
+                  <input type="color" id="change_mainColor" class="button-sousyoku-pa" title="文字色を選択する">
+                    </p>
+                  </div>
+                </div>
+                <div class="sayu">
+                  <div class="left">
+                    <p class="yohaku">
+                      <a>Reverse Color</a>
+                    </p>                  
+                  </div>
+                  <div class="right">
+                    <p class="yohaku">
+                      <label class="toggle-button" title="色反転">
+                        <input type="checkbox" id="revc" name="revc" style="cursor: pointer;"/></label>
+                    </p>                  
+                  </div>
+                </div>
+                <div class="sayu">
+                  <div class="left">
+                    <p class="yohaku">
+                      <a>Grayscale</a>
+                    </p>                  
+                  </div>
+                  <div class="right">
+                    <p class="yohaku">
+                      <label class="toggle-button" title="グレースケール">
+                        <input type="checkbox" id="gray" name="gray" style="cursor: pointer;"/><label>
+                    </p>                  
+                  </div>
+                </div>
+            </div>
+          </li>
+          <li class="dropdown__item">
+            <div class="a-contents">
+              <div class="sayu">
+                <div class="left">
+                  <p class="yohaku">
+                    <a>Swap Digits</a>
+                  </p>                  
+                </div>
+                <div class="right">
+                  <p class="yohaku">
+                    <label class="toggle-button" title="桁数を増やす">
+                      <input type="checkbox" onclick="decimalPointDisplay()" id="swapDigits" style="cursor: pointer;">
+                    </label>
+                  </p>                  
+                </div>
+              </div>
+              <div class="sayu">
+                <div class="left">
+                  <p class="yohaku">
+                    <a>Lap OFF</a>
+                  </p>                  
+                </div>
+                <div class="right">
+                  <p class="yohaku">
+                    <label class="toggle-button" title="ラップ機能をオフにする">
+                      <input type="checkbox" onclick="LapDisplay()" id="lapOff" style="cursor: pointer;">
+                    </label>
+                  </p>                  
+                </div>
+              </div>
+              <div class="sayu">
+                <div class="left">
+                  <p class="yohaku">
+                    <a>Analog Watch</a>
+                  </p>                  
+                </div>
+                <div class="right">
+                  <p class="yohaku">
+                    <label class="toggle-button" title="アナログ時計">
+                      <input type="checkbox" id="toggleBtn" style="cursor: pointer;">
+                    </label>
+                  </p>                  
+                </div>
+              </div>
+            </div>
+          </li>
+          <li class="dropdown__item sei_only">
+            <div class="a-contents">
+              <p class="yohaku">
+                <a>Time on Tab</a>
+                <label class="toggle-button">
+                  <input type="checkbox" onclick="dispTimeOnTab ^= 1;updateTitle('');" style="cursor: pointer;">
+                </label>
+                <a>RTA timer</a>
+                <label class="toggle-button">
+                  <input type="checkbox"
+                    onclick="RTAmode ^= 1;$countdown.style.display = 'none';STW.time = Math.max(0, STW.time);"
+                    style="cursor: pointer;">
+                </label>
+              </p>
+            </div>
+          </li>
+          <li class="dropdown__item">
+            <div class="a-contents">
+              <div class="sayu">
+                <div class="left">
+                  <p class="yohaku">
+                    <a>Functions</a>
+                  </p>                  
+                </div>
+                <div class="right">
+                  <p class="yohaku">
+                    <button onclick="window.open('#', '_blank', 'location=no')" class="button-sousyoku" title="新しいタブで開く">New
+                      Tab</button>
+                    <button id="fullScreen" class="button-sousyoku" title="フルスクリーンモードをオンにする">⛶ FSP</button>
+                    <button id="exitFullScreen" class="button-sousyoku" title="フルスクリーンモードをオフにする">⿻ Exit FSP</button>
+                    <script>
+                      document.addEventListener("DOMContentLoaded", function () {
+                        const fullScreenBtn = document.getElementById("fullScreen");
+                        const exitFullScreenBtn = document.getElementById("exitFullScreen");
+                        // 初期状態: fullScreenボタンを表示、exitFullScreenボタンを非表示
+                        fullScreenBtn.style.display = "inline-block";
+                        exitFullScreenBtn.style.display = "none";
+                        fullScreenBtn.addEventListener("click", function () {
+                          fullScreenBtn.style.display = "none";
+                          exitFullScreenBtn.style.display = "inline-block";
+                        });
+                        exitFullScreenBtn.addEventListener("click", function () {
+                          exitFullScreenBtn.style.display = "none";
+                          fullScreenBtn.style.display = "inline-block";
+                        });
+                      });
+                    </script>
+                  </p>                  
+                </div>
+              </div>
+            </div>
+          </li>
+          <li class="dropdown__item">
+            <div class="a-contents">
+              <p class="midashi"><a>Font Settings</a></p>
+              <div class="sayu">
+                <div class="left">
+                  <p class="yohaku">
+                    <a>Font</a>
+                  </p>                  
+                </div>
+                <div class="right">
+                  <div class="yohaku">
+                   <div class="scroll">
+                    <input type="radio" name="font" id="notosans" style="display: none;"></input><label for="notosans"
+                      class="fontlabel" title="Noto Sans">Noto Sans</label>
+                    <input type="radio" name="font" id="serif" style="display: none;"></input><label for="serif"
+                      class="fontlabel" title="Zen Old Mincho">Serif</label>
+                    <input type="radio" name="font" id="verdana" style="display: none;"></input><label for="verdana"
+                      class="fontlabel" title="Verdana">Verdana</label>
+                    <input type="radio" name="font" id="roboto" style="display: none;"></input><label for="roboto"
+                      class="fontlabel" title="Roboto">Roboto</label>
+                    <input type="radio" name="font" id="jersey" style="display: none;"></input><label for="jersey"
+                      class="fontlabel" title="Jersey 10 Charted">Jersey 10 Charted</label>
+                    </div> 
+                  </div>      
+                </div>
+              </div>
+              <div class="sayu">
+                <div class="left">
+                  <p class="yohaku">
+                    <a>Font Weight</a>
+                  </p>
+                </div>
+                <div class="right">
+                  <p class="yohaku">
+                    <input type="range" id="cssValueV" min="100" max="900" step="100" value="400" class="rangesN"/>
+                    <script>
+                      document.getElementById("cssValueV").addEventListener("input", function () {
+                        const property = "font-weight";
+                        const value = this.value;
+                        if (property && value) {
+                          tbtBody.style[property] = value;
+                        }
+                      });
+                    </script>
+                  </p>
+                </div>
+              </div>
+              <div class="sayu">
+                <div class="left">
+                  <p class="yohaku">
+                    <a>Font Size</a>
+                  </p>
+                </div>
+                <div class="right">
+                  <p class="yohaku">
+                    <input type="range" id="cssValue" min="0" max="24" step="1" value="16" class="rangesN" />
+                    <script>
+                      document.getElementById("cssValue").addEventListener("input", function () {
+                        const property = "font-size";
+                        const value = this.value;
+                        if (property && value) {
+                          WATtime.style[property] = value + "vw";
+                          STWtime.style[property] = value + "vw";
+                          TIMtime.style[property] = value + "vw";
+                          STWmtime.style[property] = (value / 2) + "vw";
+                          WATday.style[property] = (value / 2) + "vw";
+                        }
+                      });
+                    </script>
+                  </p>
+                </div>
+              </div>
+            </div>
+          </li>
+          <li class="dropdown__item_noborder">
+            <div class="a-contents">
+              <div class="midashi-nodeco">
+                <details>
+                  <summary class="summary-contents" title="情報を開閉する"><a>Information｜</a><a
+                      class="inside">Ver.8.00.0(2025.4.X)</a></summary>
+                  <p class="midashi-nodeco"></p>
+                    <a class="inside" id="forurl" href="https://www.tadr-tech.info/kikaku/htu" target="_blank"
+                      title="使い方">How to use(Ja)</a>｜<a class="inside" id="forurl"
+                      href="https://www.tadr-tech.info/blog" target="_blank" title="リリース情報">Release Information</a>｜<a
+                      class="inside" id="forurl" href="release.html" target="_blank" title="リリースノート">Release
+                      Notes</a>｜<a class="inside">Tabatch by TADR, SEI2423 (INPO)</a>｜<a class="inside">Music by </a><a
+                      class="inside" id="forurl" href="https://amachamusic.chagasi.com" target="_blank">甘茶の音楽工房様</a>
+                  </p>
+                </details>
+              </div>
+            </div>
+          </li>
+        </ul>
+      </div>
+      <input type="radio" name="tab_name" id="STWTab" accesskey="">
+      <label class="tab_class" for="STWTab" id="label1" title="ストップウォッチ"><svg xmlns="http://www.w3.org/2000/svg"
+          version="1.1" viewBox="0.00 0.00 1100.00 1100.00" class="svg-settings">
+          <g>
+            <path fill="var(--mainColor)" fill-opacity="0.0" d="m0 0l944.8819 0l0 944.8819l-944.8819 0z"
+              fill-rule="evenodd" />
+            <path fill="var(--mainColor)"
+              d="m406.29922 70.95826l0 0c0 -6.958061 5.6405945 -12.598679 12.598663 -12.598679l107.08612 0c3.3413696 0 6.5458984 1.3273544 8.90863 3.6900673c2.362671 2.3627129 3.6900635 5.567234 3.6900635 8.908611l0 50.393196c0 6.9580536 -5.640625 12.598679 -12.598694 12.598679l-107.08612 0c-6.958069 0 -12.598663 -5.640625 -12.598663 -12.598679z"
+              fill-rule="evenodd" />
+            <path fill="var(--mainColor)"
+              d="m56.692913 524.0315l0 0c0 -229.6113 186.13673 -415.74805 415.74805 -415.74805l0 0c110.263214 0 216.01035 43.801895 293.97824 121.769775c77.967896 77.96788 121.769775 183.71501 121.769775 293.97827l0 0c0 229.61133 -186.13672 415.74805 -415.74802 415.74805l0 0c-229.6113 0 -415.74805 -186.13672 -415.74805 -415.74805z"
+              fill-rule="evenodd" />
+            <path fill="var(--bgColor)"
+              d="m113.385826 524.0315l0 0c0 -198.30066 160.75446 -359.0551 359.0551 -359.0551l0 0c95.227325 0 186.55441 37.82892 253.89029 105.164795c67.33594 67.33591 105.164795 158.663 105.164795 253.89032l0 0c0 198.30066 -160.7544 359.0551 -359.05508 359.0551l0 0c-198.30066 0 -359.0551 -160.75446 -359.0551 -359.0551z"
+              fill-rule="evenodd" />
+            <path fill="var(--mainColor)"
+              d="m444.09448 524.0315l0 0c0 -15.655304 12.691132 -28.346466 28.346466 -28.346466l0 0c7.5179443 0 14.727966 2.9865112 20.043976 8.30249c5.315979 5.3160095 8.30249 12.5260315 8.30249 20.043976l0 0c0 15.655334 -12.691162 28.346436 -28.346466 28.346436l0 0c-15.655334 0 -28.346466 -12.691101 -28.346466 -28.346436z"
+              fill-rule="evenodd" />
+            <path fill="var(--mainColor)"
+              d="m744.09656 106.80057l0 0c4.47052 -5.3316116 12.41571 -6.028366 17.746033 -1.5562515l96.5083 80.97039c2.5596924 2.147583 4.161682 5.224289 4.4536743 8.553299c0.29193115 3.3289948 -0.7501221 6.6375885 -2.8969727 9.197922l-32.377625 38.613785c-4.470581 5.331604 -12.41571 6.028366 -17.746033 1.5562439l-96.5083 -80.97038c-5.3303223 -4.472107 -6.0272827 -12.419601 -1.5567017 -17.75122z"
+              fill-rule="evenodd" />
+            <path fill="var(--mainColor)"
+              d="m359.0551 15.748346l0 0c0 -8.697571 7.0507812 -15.748346 15.748352 -15.748346l195.27496 0c4.176697 0 8.182373 1.659196 11.135742 4.612584c2.9534302 2.9533877 4.61261 6.9590416 4.61261 11.135762l0 62.9915c0 8.697571 -7.0507812 15.748344 -15.748352 15.748344l-195.27496 0c-8.697571 0 -15.748352 -7.0507736 -15.748352 -15.748344z"
+              fill-rule="evenodd" />
+            <path fill="var(--mainColor)"
+              d="m84.888954 203.94382l0 0c-4.476349 -5.32872 -3.7815094 -13.27269 1.5519714 -17.743347l96.52828 -80.91264c2.5612183 -2.1468964 5.8714905 -3.1893158 9.20256 -2.8979568c3.33107 0.29135895 6.41008 1.8926392 8.559708 4.451584l32.419617 38.59278c4.476349 5.32872 3.7815094 13.27269 -1.5519714 17.743347l-96.528275 80.91264c-5.333481 4.4706726 -13.285919 3.7750854 -17.762268 -1.5536194z"
+              fill-rule="evenodd" />
+          </g>
+        </svg><a class="suma">Stopwatch</a></label>
+      <div class="content_class">
+        <div class="timer-contents">
+          <center>
+            <span id="STWtime" class="timer-contents">00:00:00</span><span id="STWmtime" class="timer-contents-a">.000</span>
+            <div id="countdown"></div>
+            <!--<span class="timer-contents-a">.000</span>-->
+          </center>
+        </div>
+        <div id="buttons">
+          <input id="STWStartBtn" type="button" value="start" class="button-select" onclick="STWStart()">
+          <input id="STWStopBtn" type="button" value="stop" class="button-select" onclick="STWStop()" disabled>
+          <input id="STWResetBtn" type="button" value="reset" class="button-select" onclick="STWReset()" disabled>
+          <input id="STWLapBtn" type="button" value="lap" class="button-select" onclick="STWLap()"
+            style="height: 3rem ; border-radius: 100vh;" disabled>
+        </div>
+        <center>
+          <div id="STWLapDisp" class="lapdisp">
+          </div>
+        </center>
+      </div>
+      <input type="radio" name="tab_name" id="WATTab" checked>
+      <label class="tab_class" for="WATTab" id="label2" title="時計">
+        <svg xmlns="http://www.w3.org/2000/svg" version="1.1" viewBox="0.00 0.00 1100.00 1100.00" class="svg-settings">
+          <g>
+            <path fill="var(--mainColor)" fill-opacity="0.0" d="m0 0l944.8819 0l0 944.8819l-944.8819 0z"
+              fill-rule="evenodd" />
+            <path fill="var(--mainColor)"
+              d="m56.692913 472.44095l0 0c0 -229.6113 186.13673 -415.74805 415.74805 -415.74805l0 0c110.263214 0 216.01035 43.8019 293.97824 121.769775c77.967896 77.96788 121.769775 183.71501 121.769775 293.97827l0 0c0 229.6113 -186.13672 415.74802 -415.74802 415.74802l0 0c-229.6113 0 -415.74805 -186.13672 -415.74805 -415.74802z"
+              fill-rule="evenodd" />
+            <path fill="var(--bgColor)"
+              d="m113.385826 472.44095l0 0c0 -198.30066 160.75446 -359.0551 359.0551 -359.0551l0 0c95.227325 0 186.55441 37.82891 253.89029 105.1648c67.33594 67.33591 105.164795 158.66296 105.164795 253.89032l0 0c0 198.30069 -160.7544 359.05508 -359.05508 359.05508l0 0c-198.30066 0 -359.0551 -160.7544 -359.0551 -359.05508z"
+              fill-rule="evenodd" />
+            <path fill="var(--mainColor)"
+              d="m444.09448 472.44095l0 0c0 -15.655334 12.691132 -28.346466 28.346466 -28.346466l0 0c7.5179443 0 14.727966 2.9865112 20.043976 8.30249c5.315979 5.315979 8.30249 12.5260315 8.30249 20.043976l0 0c0 15.655304 -12.691162 28.346466 -28.346466 28.346466l0 0c-15.655334 0 -28.346466 -12.691162 -28.346466 -28.346466z"
+              fill-rule="evenodd" />
+            <path fill="var(--mainColor)"
+              d="m423.01648 140.72943c-1.1787415 1.1980591 -2.9565125 2.5990295 -5.3333435 4.202896c-2.3768005 1.6038666 -4.9275208 3.1787415 -7.6521606 4.72464c-2.72464 1.5265656 -5.27536 2.917862 -7.6521606 4.1739044c-2.376831 1.2367096 -4.222229 2.212555 -5.5362244 2.927536l0 22.086945c1.4299316 -0.7149811 3.0048218 -1.4202881 4.7246094 -2.1159363c1.7198181 -0.7149811 3.497589 -1.4589386 5.3333435 -2.2318878c1.855072 -0.7729492 3.6135254 -1.5169067 5.27536 -2.2318726c1.6618347 -0.7149811 3.1401062 -1.4299622 4.434784 -2.144928l0 114.86951l29.739105 0l0 -144.2608z"
+              fill-rule="evenodd" />
+            <path fill="var(--mainColor)"
+              d="m508.85522 138.7874c-9.603851 0 -17.381622 1.932373 -23.333313 5.797104c-5.932373 3.845398 -10.260864 9.120758 -12.985504 15.82608c-2.72464 6.705307 -4.0869446 14.338165 -4.0869446 22.898544l0 7.6521606l28.840576 0l0 -7.130432c0 -3.6714935 0.3284912 -6.985504 0.98550415 -9.942017c0.6569824 -2.9758453 1.8743896 -5.352661 3.6521606 -7.130432c1.777771 -1.7971039 4.2705383 -2.6956482 7.4782715 -2.6956482c2.8405457 0 5.0917664 1.0144806 6.7536316 3.0434723c1.6618042 2.0096588 2.4927368 5.0917816 2.4927368 9.246368c0 4.154587 -0.7439575 8.135254 -2.2318726 11.942032c-1.4686279 3.7874298 -3.3623047 7.5265656 -5.681183 11.217377c-2.3188171 3.6715088 -4.782593 7.4685974 -7.3912964 11.391312l-34.55072 53.07245l0 21.014465l75.33334 0l0 -23.333313l-42.20291 0l26.347809 -39.362305c3.4396362 -5.1014557 6.6763306 -9.990341 9.710144 -14.666672c3.0338135 -4.695648 5.468628 -9.536224 7.3043213 -14.5217285c1.8357544 -4.985504 2.753662 -10.386459 2.753662 -16.202896c0 -11.999985 -3.2946777 -21.352646 -9.884094 -28.057953c-6.5893555 -6.705307 -16.357483 -10.057968 -29.304321 -10.057968z"
+              fill-rule="evenodd" />
+            <path fill="var(--mainColor)"
+              d="m472.72937 738.58014c3.0724487 0 5.265686 0.98547363 6.5796814 2.956543c1.3140259 1.9516602 2.1159668 4.6569824 2.4058228 8.115906c0.28985596 3.4396362 0.43475342 7.5265503 0.43475342 12.260864c0 5.352661 -0.21255493 9.845398 -0.6376648 13.4782715c-0.40579224 3.6135254 -1.2367249 6.338135 -2.4927673 8.173889c-1.2366943 1.8357544 -3.2173767 2.753601 -5.9420166 2.753601c-2.6087036 0 -4.657013 -0.8598633 -6.144928 -2.5796509c-1.487915 -1.7198486 -2.502411 -4.0 -3.043457 -6.840576c-0.52175903 -2.8599243 -0.7826233 -5.893738 -0.7826233 -9.101501l0 -23.507202c0.48309326 -0.8309326 1.1980591 -1.6908569 2.144928 -2.579712c0.9468689 -0.888916 2.067627 -1.6328735 3.3623047 -2.2318726c1.3140259 -0.59906006 2.6860046 -0.8985596 4.115967 -0.8985596zm-0.17391968 -78.69562c-10.686005 0 -18.879211 2.1062622 -24.579712 6.3188477c-5.70047 4.2125244 -9.652161 10.0 -11.855072 17.362305c-2.2028809 7.3623047 -3.3043518 15.729431 -3.3043518 25.10144l0 52.17389c0 9.159424 1.3623352 17.304321 4.086975 24.434753c2.7439575 7.111145 7.053131 12.714966 12.927521 16.811584c5.8743896 4.0966187 13.507233 6.1449585 22.89856 6.1449585c10.086945 0 17.980652 -2.135254 23.681122 -6.4058228c5.7005005 -4.289856 9.739136 -10.260864 12.115936 -17.913025c2.376831 -7.6521606 3.5652466 -16.521729 3.5652466 -26.608704c0 -7.845398 -1.0144958 -14.937195 -3.0434875 -21.27533c-2.009674 -6.357483 -5.304352 -11.372009 -9.884064 -15.043457c-4.290802 -3.4726562 -9.933014 -5.2089844 -16.926666 -5.2089844c-0.4393921 0 -0.88412476 0.0068359375 -1.334198 0.020568848c-4.0386353 0.11590576 -7.6618347 0.8598633 -10.869568 2.2318726c-3.188385 1.3526611 -5.4975586 3.2753296 -6.9275208 5.7681274l0 -12.811584c0 -7.4782715 0.23187256 -13.294678 0.6956482 -17.44928c0.48309326 -4.154602 1.4009705 -7.062805 2.7536316 -8.72467c1.3719788 -1.6618042 3.4299316 -2.4927368 6.1739197 -2.4927368c4.0386353 0 6.502411 1.401001 7.3912964 4.202881c0.8888855 2.7826538 1.333313 7.0821533 1.333313 12.89856l27.942017 0c0 -0.36712646 -0.028961182 -0.7536011 -0.08694458 -1.1594238c-0.0579834 -0.42510986 -0.08694458 -0.8695679 -0.08694458 -1.333313c0 -8.0772705 -1.1304321 -14.840576 -3.391327 -20.289856c-2.2415466 -5.468567 -6.0386353 -9.623169 -11.391296 -12.463745c-5.333313 -2.8599243 -12.627991 -4.289856 -21.884033 -4.289856z"
+              fill-rule="evenodd" />
+            <path fill="var(--mainColor)"
+              d="m755.39386 397.91208c-8.193237 0 -15.227051 1.5458984 -21.10144 4.637665c-5.8743896 3.0724792 -10.386475 7.6135254 -13.536255 13.623199c-3.1497192 5.990326 -4.7246094 13.313995 -4.7246094 21.971008l0 8.724609l29.768127 0c0 -1.2946777 0 -2.5603638 0 -3.7970886c0 -1.2560425 0 -2.4830933 0 -3.6811523c0 -5.2173767 0.61834717 -9.487915 1.8550415 -12.811584c1.2560425 -3.3236694 3.8357544 -4.985504 7.7391357 -4.985504c4.0386353 0 6.801941 1.487915 8.289856 4.463745c1.487915 2.956543 2.2318726 7.227051 2.2318726 12.811615c0 7.2463684 -1.0724487 12.589355 -3.2174072 16.028961c-2.1256104 3.4396057 -6.338135 5.159424 -12.637634 5.159424l-4.8115845 0l0 20.463745l5.536194 0c6.1642456 0.13528442 10.222229 2.077301 12.173889 5.826111c1.9710083 3.7294617 2.956543 9.14975 2.956543 16.260864c0 4.270508 -0.24151611 7.835724 -0.7246094 10.695648c-0.46380615 2.8405762 -1.3816528 4.97583 -2.753662 6.4057617c-1.3719482 1.4299927 -3.420288 2.1449585 -6.1448975 2.1449585c-2.7246704 0 -4.8599243 -0.67633057 -6.4058228 -2.0289917c-1.5458984 -1.3720093 -2.6183472 -3.5458984 -3.2173462 -6.5217285c-0.5797119 -2.9758606 -0.8695679 -6.8309326 -0.8695679 -11.565216c0 -0.9661865 0 -2.0386658 0 -3.2174072c0 -1.1787415 0 -1.8357239 0 -1.9710083l-29.768127 0l0 5.1884155c0 8.888855 1.2174072 16.753632 3.6521606 23.594208c2.4348145 6.821228 6.531433 12.135254 12.289856 15.942017c5.758484 3.7874146 13.690796 5.6811523 23.79712 5.6811523c9.603821 0 17.313965 -1.9227295 23.130371 -5.7681274c5.8164673 -3.864746 10.0 -9.178772 12.55072 -15.942017c2.5700684 -6.782593 3.8551025 -14.560394 3.8551025 -23.333344c0 -6.898529 -0.7729492 -12.570038 -2.3188477 -17.014465c-1.5458984 -4.444458 -3.6618042 -7.9710083 -6.3478394 -10.579712c-2.666626 -2.6280212 -5.661804 -4.5314026 -8.985474 -5.710144c4.869568 -1.3139954 9.02417 -4.8212585 12.463745 -10.5217285c3.4589233 -5.7005005 5.1884155 -12.763306 5.1884155 -21.188416c0 -8.541046 -1.6038818 -15.690796 -4.8115845 -21.44925c-3.2077637 -5.7584534 -7.7874756 -10.115936 -13.739136 -13.072449c-5.932373 -2.9758606 -13.053162 -4.4637756 -21.362305 -4.4637756z"
+              fill-rule="evenodd" />
+            <path fill="var(--mainColor)"
+              d="m189.13733 420.15176c2.7246246 0 4.7342834 0.8695679 6.0289764 2.6087036c1.3140106 1.7197876 2.202896 3.9710083 2.6666718 6.753601c0.483078 2.7826233 0.72462463 5.8357544 0.72462463 9.159424l0 23.507233c-0.83091736 1.1980591 -1.9613495 2.4541016 -3.3912964 3.7681274c-1.4106293 1.2946777 -3.3043518 1.9420166 -5.6811523 1.9420166c-3.0917969 0 -5.294693 -0.9758301 -6.6087036 -2.9275208c-1.2946777 -1.9710083 -2.0966187 -4.7053223 -2.4057922 -8.202911c-0.28985596 -3.497589 -0.43478394 -7.565216 -0.43478394 -12.202881c0 -5.3333435 0.20289612 -9.806763 0.6087036 -13.420288c0.42510986 -3.632843 1.2850189 -6.367157 2.5796967 -8.202881c1.3140106 -1.855072 3.2850342 -2.7826233 5.9130554 -2.7826233zm0 -21.884033c-9.623184 0 -17.343002 2.0193176 -23.159424 6.057953c-5.8164215 4.0386353 -9.999985 9.710144 -12.55072 17.014496c-2.5507202 7.2850037 -3.8260803 15.980652 -3.8260803 26.086945c0 7.8260803 1.004837 15.062805 3.0144958 21.710114c2.0289764 6.647339 5.352646 11.932373 9.971008 15.855072c4.504532 3.810089 10.403687 5.715149 17.697433 5.715149c0.21557617 0 0.43237305 -0.0016784668 0.6503906 -0.005004883c3.922699 -0.2511902 7.4492645 -1.0241394 10.579697 -2.3188477c3.149765 -1.3139954 5.497589 -3.2173767 7.0434723 -5.7101135l0 12.811584c0 7.3623047 -0.21255493 13.159393 -0.63768005 17.391266c-0.40579224 4.2125854 -1.2657013 7.1497803 -2.5796967 8.811584c-1.294693 1.6618652 -3.3043518 2.4927979 -6.0289917 2.4927979c-4.0386505 0 -6.570038 -1.3912964 -7.5941925 -4.17395c-1.004837 -2.80188 -1.5072479 -7.111084 -1.5072479 -12.927521l-27.768112 0c0 0.34783936 0 0.73431396 0 1.1594238c0 0.40579224 0 0.79226685 0 1.1594238c0 8.057953 1.1207733 14.85025 3.36232 20.3768c2.2608643 5.5265503 6.057968 9.719788 11.391296 12.579712c5.352661 2.8405762 12.666672 4.2608643 21.942032 4.2608643c10.685974 0 18.869553 -2.1062622 24.550705 -6.3188477c5.700485 -4.2125244 9.652176 -10.0 11.855072 -17.362305c2.202896 -7.3623047 3.3043518 -15.739105 3.3043518 -25.130432l0 -53.768066c0 -9.2560425 -1.3430023 -17.294678 -4.0289917 -24.115936c-2.6666718 -6.840576 -6.908203 -12.154602 -12.724625 -15.942047c-5.816437 -3.8067322 -13.468597 -5.7101135 -22.956512 -5.7101135z"
+              fill-rule="evenodd" />
+          </g>
+        </svg> <a class="suma">Watch</a>
+      </label>
+      <div class="content_class">
+
+        <div id="digitalid" class="digiwatch">
+          <div id="WATtime" align="center" class="timer-contents"></div>
+          <p id="WATday" class="WATday" onclick="setWATLang()" style="text-align:center"
+            title="日付を表示　Spaceキー / クリックで表示切替"></p>
+        </div>
+        <div id="analogid" class="anawatch">
+          <div class="anaclock" id="anaclock"></div>
+          <script>
+            const anaclock = document.getElementById("anaclock");
+            const ananumbers = ["12", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11"];
+
+            ananumbers.forEach((num, i) => {
+              const angle = (i * 30) * (Math.PI / 180);
+              const x = 40 + Math.sin(angle) * 32;
+              const y = 40 - Math.cos(angle) * 32;
+              const div = document.createElement("div");
+              div.className = "ananumber";
+              div.style.left = `${x}vmin`;
+              div.style.top = `${y}vmin`;
+              div.textContent = num;
+              anaclock.appendChild(div);
+            });
+
+            for (let i = 0; i < 60; i++) {
+              if (i % 5 !== 0) { // 数字の位置はスキップ
+                const angle = (i * 6) * (Math.PI / 180);
+                const x = 40 + Math.sin(angle) * 32; // 数字と同じ半径
+                const y = 40 - Math.cos(angle) * 32;
+                const anatick = document.createElement("div");
+                anatick.className = "anatick";
+                anatick.style.left = `${x}vmin`;
+                anatick.style.top = `${y}vmin`;
+                anatick.style.transform = `translate(-50%, -50%) rotate(${i * 6}deg)`;
+                anaclock.appendChild(anatick);
+              }
+            }
+
+            function createHand(className) {
+              const hand = document.createElement("div");
+              hand.className = `hand ${className}`;
+              anaclock.appendChild(hand);
+              return hand;
+            }
+
+            const hourHand = createHand("anahour");
+            const minuteHand = createHand("anaminute");
+            const secondHand = createHand("anasecond");
+
+            function updateClock() {
+              const now = new Date();
+              const anahours = now.getHours() % 12;
+              const anaminutes = now.getMinutes();
+              const anaseconds = now.getSeconds();
+
+              const hourDeg = (anahours + anaminutes / 60) * 30;
+              const minuteDeg = (anaminutes + anaseconds / 60) * 6;
+              const secondDeg = anaseconds * 6;
+
+              hourHand.style.transform = `translate(-50%, 0) rotate(${hourDeg}deg)`;
+              minuteHand.style.transform = `translate(-50%, 0) rotate(${minuteDeg}deg)`;
+              secondHand.style.transform = `translate(-50%, 0) rotate(${secondDeg}deg)`;
+            }
+
+            setInterval(updateClock, 1000);
+            updateClock();
+          </script>
+        </div>
+      </div>
+      <input type="radio" name="tab_name" id="TIMTab">
+      <label class="tab_class" for="TIMTab" id="label3" title="タイマー"><svg xmlns="http://www.w3.org/2000/svg"
+          version="1.1" viewBox="0.00 0.00 1100.00 1100.00" class="svg-settings">
+          <g>
+            <path fill="var(--mainColor)" fill-opacity="0.0" d="m0 0l944.8819 0l0 944.8819l-944.8819 0z"
+              fill-rule="evenodd" />
+            <path fill="var(--mainColor)"
+              d="m291.55783 802.3144l-137.71198 102.000305l-66.56032 -55.811584l76.52425 -153.30682z"
+              fill-rule="evenodd" />
+            <path fill="var(--mainColor)"
+              d="m0 236.68242l0 0c0 -83.495026 67.68609 -151.1811 151.1811 -151.1811l0 0c40.09572 0 78.549225 15.927963 106.90117 44.279922c28.35196 28.35196 44.279938 66.805466 44.279938 106.901184l0 0c0 83.49501 -67.6861 151.1811 -151.1811 151.1811l0 0c-83.49502 0 -151.1811 -67.6861 -151.1811 -151.1811z"
+              fill-rule="evenodd" />
+            <path fill="var(--mainColor)"
+              d="m642.5197 236.68242l0 0c0 -83.495026 67.686035 -151.1811 151.18109 -151.1811l0 0c40.095703 0 78.549194 15.927963 106.901184 44.279922c28.351929 28.35196 44.279907 66.805466 44.279907 106.901184l0 0c0 83.49501 -67.6861 151.1811 -151.18109 151.1811l0 0c-83.495056 0 -151.18109 -67.6861 -151.18109 -151.1811z"
+              fill-rule="evenodd" />
+            <path fill="var(--mainColor)"
+              d="m56.692913 472.44095l0 0c0 -229.6113 186.13673 -415.74805 415.74805 -415.74805l0 0c110.263214 0 216.01035 43.8019 293.97824 121.769775c77.967896 77.96788 121.769775 183.71501 121.769775 293.97827l0 0c0 229.6113 -186.13672 415.74802 -415.74802 415.74802l0 0c-229.6113 0 -415.74805 -186.13672 -415.74805 -415.74802z"
+              fill-rule="evenodd" />
+            <path fill="var(--bgColor)"
+              d="m113.385826 472.44095l0 0c0 -198.30066 160.75446 -359.0551 359.0551 -359.0551l0 0c95.227325 0 186.55441 37.82891 253.89029 105.1648c67.33594 67.33591 105.164795 158.66296 105.164795 253.89032l0 0c0 198.30069 -160.7544 359.05508 -359.05508 359.05508l0 0c-198.30066 0 -359.0551 -160.7544 -359.0551 -359.05508z"
+              fill-rule="evenodd" />
+            <path fill="var(--mainColor)"
+              d="m444.09448 472.44095l0 0c0 -15.655334 12.691132 -28.346466 28.346466 -28.346466l0 0c7.5179443 0 14.727966 2.9865112 20.043976 8.30249c5.315979 5.315979 8.30249 12.5260315 8.30249 20.043976l0 0c0 15.655304 -12.691162 28.346466 -28.346466 28.346466l0 0c-15.655334 0 -28.346466 -12.691162 -28.346466 -28.346466z"
+              fill-rule="evenodd" />
+            <path fill="var(--mainColor)"
+              d="m781.07074 695.16425l76.5379 153.32312l-66.5246 55.84198l-137.6983 -101.98401z" fill-rule="evenodd" />
+          </g>
+        </svg><a class="suma">Timer</a></label>
+      <div class="content_class">
+        <div class="timer-contents" id="TIMtime">
+          <div id="largehour" class="time_display" style="display: inline-block; _display: inline;"><span
+              id="TIMhour">00</span>
+          </div>:<div id="largeminute" class="time_display" style="display: inline-block; _display: inline;"><span
+              id="TIMmin">00</span>
+          </div>:<div id="largesecond" class="time_display" style="display: inline-block; _display: inline;"><span
+              id="TIMsec">30</span>
+          </div>
+        </div>
+        <center>
+          <input type="button" id="TIMStartBtn" value="start" class="button-select" onclick="TIMStart()">
+          <input type="button" id="TIMStopBtn" value="stop" class="button-select" onclick="TIMStop()" disabled>
+          <input type="button" id="TIMResetBtn" value="reset" class="button-select" onclick="TIMReset()" disabled>
+        </center>
+      </div>
+    </div>
+  </div>
+  <script>
+    //------------------------------init------------------------------
+    const COOKIE = new Map(document.cookie.split('; ').map(x => x.split('=')));
+    COOKIE.set = () => {
+      throw new TypeError("This variable was freezed.")
+    };
+    addEventListener('load', (function () {
+      const mainColor = COOKIE.get('mainColor') || '#000000';
+      const bgColor = COOKIE.get('bgColor') || '#FFFFFF';
+      changeColor(mainColor, bgColor);
+      console.log(COOKIE);
+      STW.startTime = +COOKIE.get('STWstartTime') || 0;
+      STW.time = +COOKIE.get('STWtime') || 0;
+      STW.moving = +COOKIE.get('STWmoving') || 0;
+      if (STW.moving) {
+        STWBtnsDisabled('start');
+      } else {
+        if (STW.time) {
+          STWBtnsDisabled('stop');
+        } else {
+          STWBtnsDisabled('reset');
+        }
+      }
+      WAT.lang = COOKIE.get('lang') || 'ja';
+      TIM.setTime = +COOKIE.get('TIMsetTime') || 30000;
+      TIM.endTime = +COOKIE.get('TIMendTime') || 0;
+      TIM.time = +COOKIE.get('TIMtime') || 30000;
+      TIM.moving = +COOKIE.get('TIMmoving') || 0;
+      $setTIMhours[0].value = $setTIMhours[1].value = TIM.setTime / ANHOUR | 0;
+      $setTIMmins[0].value = $setTIMmins[1].value = (TIM.setTime % ANHOUR) / AMIN | 0;
+      $setTIMsecs[0].value = $setTIMsecs[1].value = (TIM.setTime % AMIN) / ASEC | 0;
+      if (TIM.moving) {
+        TIMBtnsDisabled('start');
+      } else {
+        if (TIM.time != TIM.setTime) {
+          TIMBtnsDisabled('stop');
+        } else {
+          TIMBtnsDisabled('reset');
+        }
+      }
+      STWDisplay(true);
+      TIMDisplay(true);
+      switch (COOKIE.get('Tab')) {
+        case 'STW':
+          $STWTab.checked = true;
+          break;
+        case 'TIM':
+          $TIMTab.checked = true;
+          break;
+      }
+      $STWmtime.style.display = COOKIE.get('STWmtimestyledisplay') || 'inline-block';
+      $swapDigits.checked = $STWmtime.style.display != 'none';
+      $STWLapDisp.style.display = COOKIE.get('STWLapDispstyledisplay') || 'inline-block';
+      $lapOff.checked = $STWLapDisp.style.display != 'inline-block';
+      switch (COOKIE.get('font')) {
+        case 'BOLD':
+          $fontSettingBtns[0].checked = true;
+          break;
+        case 'Serif':
+          $fontSettingBtns[2].checked = true;
+          break;
+      }
+      setInterval(main);
+    }));
+    //------------------------------ALL------------------------------
+    const $STWTab = document.getElementById('STWTab');
+    const $WATTab = document.getElementById('WATTab');
+    const $TIMTab = document.getElementById('TIMTab');
+    const $setTabBtn = document.getElementById('setTabBtn');
+    const $swapDigits = document.getElementById('swapDigits');
+    const $lapOff = document.getElementById('lapOff');
+    const ANHOUR = 3600000;
+    const AMIN = 60000;
+    const ASEC = 1000;
+    const $fontSettingBtns = [...document.querySelectorAll('#fontSetting > input[name="font"]')];
+
+    function zeropad(num, digits = 2, right = false) {
+      const zeros = '0'.repeat(digits - 1);
+      if (!right) {
+        return (zeros + num).slice(-digits);
+      } else {
+        return (num + zeros).slice(0, digits);
+      }
+    }
+
+    function display(force) {
+      if ($STWTab.checked) {
+        STWDisplay();
+      } else if ($WATTab.checked) {
+        WATDisplay();
+      } else if ($TIMTab.checked) {
+        TIMDisplay();
+      }
+    }
+
+    function changeColor(main, bg) {
+      document.body.style.setProperty('--mainColor', main);
+      document.body.style.setProperty('--bgColor', bg);
+      document.cookie = `mainColor=${main}`;
+      document.cookie = `bgColor=${bg}`;
+    }
+
+    function changeTab(nextTab) {
+      document.cookie = `Tab=${nextTab}`;
+      switch (nextTab) {
+        case 'STW':
+          $STWTab.checked = true;
+          updateTitle(STWtime.innerHTML);
+          break;
+        case 'WAT':
+          $WATTab.checked = true;
+          break;
+        case 'TIM':
+          $TIMTab.checked = true;
+          updateTitle($TIMhour.parentNode.parentNode.innerText);
+          break;
+      }
+    }
+
+    function allTabsKeyPress(key) {
+      let nextTab = '';
+      switch (key) {
+        case 'ArrowLeft':
+          if ($WATTab.checked) {
+            nextTab = 'STW';
+          } else if ($STWTab.checked) {
+            nextTab = 'TIM';
+          } else if ($TIMTab.checked) {
+            nextTab = 'WAT';
+          }
+          changeTab(nextTab);
+          break;
+        case 'ArrowRight':
+          if ($WATTab.checked) {
+            nextTab = 'TIM';
+          } else if ($TIMTab.checked) {
+            nextTab = 'STW';
+          } else if ($STWTab.checked) {
+            nextTab = 'WAT';
+          }
+          changeTab(nextTab);
+          break;
+      }
+    }
+
+    function preventDefault(e, key) {
+      switch (key) {
+        case 'ArrowLeft':
+        case 'ArrowRight':
+        case 'ArrowUp':
+        case 'ArrowDown':
+        case 'Escape':
+        case ' ':
+        case 'Tab':
+          e.preventDefault();
+      }
+    }
+    addEventListener('keydown', e => {
+      const key = e.key;
+      if (e.altKey || e.ctrlKey || e.shiftKey) return;
+      preventDefault(e, key);
+      setTabsKeyPress(key);
+      if ($setTabBtn.classList.contains('is-open')) return;
+      allTabsKeyPress(key);
+      TIMTabKeyPress(key);
+      WATTabKeyPress(key);
+      STWTabKeyPress(key);
+    })
+    const decimalPointDisplay = () => {
+      let STWmtimedisp;
+      if ($swapDigits.checked) {
+        STWmtimedisp = 'inline-block';
+      } else {
+        STWmtimedisp = 'none';
+      }
+      $STWmtime.style.display = STWmtimedisp;
+      document.cookie = `STWmtimestyledisplay=${STWmtimedisp}`;
+    };
+    const LapDisplay = () => {
+      let STWLapDispdisp;
+      if (!$lapOff.checked) {
+        STWLapDispdisp = 'inline-block';
+      } else {
+        STWLapDispdisp = 'none';
+      }
+      $STWLapDisp.style.display = STWLapDispdisp;
+      document.cookie = `STWLapDispstyledisplay=${STWLapDispdisp}`;
+    };
+
+
+    //---------------setting---------------
+    $setTabBtn.addEventListener('click', () => {
+      $setTabBtn.classList.toggle('is-open');
+    });
+    settingPointer = 0;
+
+    function set_color(e) {
+      const targetname = e.target.id.slice(7);
+      const targetcolor = e.target.value;
+      document.body.style.setProperty('--' + targetname, targetcolor);
+      document.cookie = `${targetname}=${targetcolor}`;
+    }
+    [change_bgColor, change_mainColor].forEach(x => x.addEventListener('change', set_color));
+    document.getElementById('fullScreen').addEventListener('click', function () {
+      document.body.requestFullscreen();
+    });
+    document.getElementById('exitFullScreen').addEventListener('click', function () {
+      document.exitFullscreen();
+    });
+    $fontSettingBtns.forEach($fontBtn => $fontBtn.addEventListener('click', e => {
+      document.cookie = `font=${e.target.nextElementSibling.textContent}`;
+    }));
+
+    function setTabsKeyPress(key) {
+      if (key == 'Escape') {
+        $setTabBtn.classList.toggle('is-open');
+        return;
+      }
+      if (!$setTabBtn.classList.contains('is-open')) return;
+      switch (key) {
+        case 'ArrowLeft':
+          break;
+        case 'ArrowRight':
+          break;
+        case 'ArrowUp':
+          break;
+        case 'ArrowDown':
+          break;
+      }
+    }
+    //------------------------------STW------------------------------
+    const STW = {
+      startTime: 0,
+      time: 0,
+      moving: 0,
+    }
+    const $STWtime = document.getElementById('STWtime');
+    const $STWmtime = document.getElementById('STWmtime');
+    const $STWLapDisp = document.getElementById('STWLapDisp');
+
+    function STWMove(now) {
+      if (!STW.moving) return;
+      STW.time = now - STW.startTime;
+      document.cookie = `STWtime=${STW.time}`;
+    }
+
+    function STWDisplay(force = false) {
+      if (!STW.moving && !force) return;
+      const hour = zeropad(STW.time / ANHOUR | 0);
+      const min = zeropad((STW.time % ANHOUR) / AMIN | 0);
+      const sec = zeropad((STW.time % AMIN) / ASEC | 0);
+      const msec = zeropad(STW.time % ASEC, 3);
+      const time = `${hour}:${min}:${sec}`;
+      if (RTAmode) {
+        RTAdisplay();
+        if (STW.time < 0) return;
+      }
+      $STWmtime.innerHTML = `.${msec}`;
+      if ($STWtime.innerHTML == time) return;
+      $STWtime.innerHTML = time;
+      if ($STWTab.checked) updateTitle($STWtime.innerHTML);
+    }
+    //---------------button---------------
+    const $STWStartBtn = document.getElementById('STWStartBtn');
+    const $STWStopBtn = document.getElementById('STWStopBtn');
+    const $STWResetBtn = document.getElementById('STWResetBtn');
+    const $STWLapBtn = document.getElementById('STWLapBtn');
+
+    function STWBtnsDisabled(when) {
+      switch (when) {
+        case 'start':
+          $STWStartBtn.disabled = true;
+          $STWStopBtn.disabled = false;
+          $STWResetBtn.disabled = false;
+          $STWLapBtn.disabled = false;
+          break;
+        case 'stop':
+          $STWStartBtn.disabled = false;
+          $STWStopBtn.disabled = true;
+          $STWResetBtn.disabled = false;
+          $STWLapBtn.disabled = true;
+          break;
+        case 'reset':
+          $STWStartBtn.disabled = false;
+          $STWStopBtn.disabled = true;
+          $STWResetBtn.disabled = true;
+          $STWLapBtn.disabled = true;
+      }
+    }
+
+    function STWStart() {
+      STWBtnsDisabled('start');
+      if (RTAmode) {
+        if (STW.time != 0) return;
+        STW.time = -2999
+      };
+      STW.moving = 1;
+      STW.startTime = new Date() - STW.time;
+      document.cookie = 'STWmoving=1';
+      document.cookie = `STWstartTime=${STW.startTime}`;
+    }
+
+    function STWStop() {
+      STWBtnsDisabled('stop');
+      STW.moving = 0;
+      document.cookie = 'STWmoving=0';
+    }
+
+    function STWReset() {
+      if ($STWResetBtn.disabled) return;
+      STWBtnsDisabled('reset');
+      STW.startTime = 0;
+      STW.time = 0;
+      STW.moving = 0;
+      document.cookie = 'STWstartTime=0';
+      document.cookie = 'STWtime=0';
+      document.cookie = 'STWmoving=0';
+      $STWLapDisp.innerHTML = '';
+      STWDisplay(true);
+    }
+
+    function STWLap() {
+      if ($STWLapBtn.disabled) return;
+      STWDisplay();
+      const newLap = document.createElement('p');
+      newLap.classList.add('timer-contents-b');
+      newLap.innerHTML = $STWtime.innerHTML + $STWmtime.innerHTML;
+      $STWLapDisp.prepend(newLap);
+    }
+
+    function STWTabKeyPress(key) {
+      if (!$STWTab.checked) return;
+      switch (key) {
+        case ' ':
+          if (!STW.moving) {
+            STWStart();
+          } else {
+            STWStop();
+          }
+          break;
+        case 'r':
+          STWReset();
+          break;
+        case 'l':
+          STWLap();
+          break;
+      }
+    }
+    //------------------------------WAT------------------------------
+    WAT = {
+      year: 0,
+      mth: 0,
+      date: 0,
+      day: 0,
+      hour: 0,
+      min: 0,
+      sec: 0,
+      lang: 'ja'
+    }
+    const $WATtime = document.getElementById('WATtime');
+    const $WATday = document.getElementById('WATday');
+
+    function WATMove() {
+      const today = new Date(new Date().toLocaleString({
+        timeZone: 'Asia/Tokyo'
+      }));
+      WAT.year = today.getYear() + 1900;
+      WAT.mth = today.getMonth() + 1;
+      WAT.date = today.getDate();
+      WAT.day = today.getDay();
+      WAT.day_ja = '日月火水木金土'[WAT.day];
+      WAT.day_en = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'][WAT.day];
+      WAT.hour = zeropad(today.getHours());
+      WAT.min = zeropad(today.getMinutes());
+      WAT.sec = zeropad(today.getSeconds());
+    }
+
+    function WATDisplay() {
+      const time = `${WAT.hour}:${WAT.min}:${WAT.sec}`;
+      const day =
+        WAT.lang == 'ja' ?
+          `${WAT.year} ${WAT.mth}/${WAT.date} ${WAT.day_ja}` :
+          `${WAT.day_en},${WAT.date}${[, 'th'][WAT.date / 10 | 0] || ['st', 'nd', 'rd'][WAT.date % 10 - 1] || 'th'} ${WAT.mth} ${WAT.year}`;
+      if ($WATtime.innerHTML != time) {
+        $WATtime.innerHTML = time;
+        if ($WATTab.checked) updateTitle(time);
+      }
+      if ($WATday.innerHTML != day) {
+        $WATday.innerHTML = day;
+      }
+    }
+    //---------------setting---------------
+    function setWATLang() {
+      if (WAT.lang == 'ja') {
+        WAT.lang = 'en';
+      } else {
+        WAT.lang = 'ja';
+      }
+      document.cookie = `lang=${WAT.lang}`;
+    }
+
+    function WATTabKeyPress(key) {
+      if (!$WATTab.checked) return;
+      switch (key) {
+        case ' ':
+          $WATday.click()
+      }
+    }
+    //------------------------------TIM------------------------------
+    TIM = {
+      setTime: 30000,
+      endTime: 0,
+      time: 30000,
+      moving: 0,
+    }
+    const $TIMhour = document.getElementById('TIMhour');
+    const $TIMmin = document.getElementById('TIMmin');
+    const $TIMsec = document.getElementById('TIMsec');
+    const audio = new Audio('/audio/sekibaku.mp3');
+
+    function TIMMove(now) {
+      if (!TIM.moving) return;
+      TIM.time = TIM.endTime - now;
+      document.cookie = `TIMtime=${TIM.time}`;
+      if (TIM.time > 0) return;
+      console.log('fin');
+      audio.play();
+      TIMReset();
+    }
+
+    function TIMDisplay(force = false) {
+      if (!TIM.moving && !force) return;
+      const hour = zeropad(TIM.time / ANHOUR | 0);
+      const min = zeropad((TIM.time % ANHOUR) / AMIN | 0);
+      const sec = zeropad((TIM.time % AMIN) / ASEC | 0);
+      if ($TIMsec.innerHTML == sec) return;
+      $TIMsec.innerHTML = sec;
+      if ($TIMTab.checked) updateTitle(`${hour}:${min}:${sec}`);
+      if ($TIMmin.innerHTML == min) return;
+      $TIMmin.innerHTML = min;
+      if ($TIMhour.innerHTML == hour) return;
+      $TIMhour.innerHTML = hour;
+    }
+    //---------------button---------------
+    const $TIMStartBtn = document.getElementById('TIMStartBtn');
+    const $TIMStopBtn = document.getElementById('TIMStopBtn');
+    const $TIMResetBtn = document.getElementById('TIMResetBtn');
+    const $setTIMGroup = document.getElementById('setTIMGroup');
+
+    function TIMBtnsDisabled(when) {
+      switch (when) {
+        case 'start':
+          $TIMStartBtn.disabled = true;
+          $TIMStopBtn.disabled = false;
+          $TIMResetBtn.disabled = false;
+          $setTIMGroup.style.visibility = 'hidden';
+          break;
+        case 'stop':
+          $TIMStartBtn.disabled = false;
+          $TIMStopBtn.disabled = true;
+          $TIMResetBtn.disabled = false;
+          $setTIMGroup.style.visibility = '';
+          break;
+        case 'reset':
+          $TIMStartBtn.disabled = false;
+          $TIMStopBtn.disabled = true;
+          $TIMResetBtn.disabled = true;
+          $setTIMGroup.style.visibility = '';
+      }
+    }
+
+    function TIMStart() {
+      TIMBtnsDisabled('start');
+      TIM.moving = 1;
+      TIM.endTime = +new Date() + TIM.time;
+      document.cookie = 'TIMmoving=1';
+      document.cookie = `TIMendTime=${TIM.endTime}`;
+    }
+
+    function TIMStop() {
+      TIMBtnsDisabled('stop');
+      TIM.moving = 0;
+      document.cookie = 'TIMmoving=0';
+    }
+
+    function TIMReset() {
+      TIMBtnsDisabled('reset');
+      TIM.moving = 0;
+      TIM.time = TIM.setTime;
+      TIM.endTime = 0;
+      document.cookie = 'TIMmoving=0';
+      document.cookie = `TIMtime=${TIM.time}`;
+      document.cookie = 'TIMendTime=0';
+      TIMDisplay(true);
+    }
+
+    function TIMTabKeyPress(key) {
+      if (!$TIMTab.checked) return;
+      switch (key) {
+        case ' ':
+          if (!TIM.moving) {
+            TIMStart();
+          } else {
+            TIMStop();
+          }
+          break;
+        case 'r':
+          TIMReset();
+          break;
+      }
+    }
+    //---------------setting---------------
+    const $setTIMhours = document.querySelectorAll('#setTIMhour > input');
+    const $setTIMmins = document.querySelectorAll('#setTIMmin > input');
+    const $setTIMsecs = document.querySelectorAll('#setTIMsec > input');
+
+    function setTIM() {
+      TIM.setTime = TIM.time = $setTIMhours[0].value * ANHOUR +
+        $setTIMmins[0].value * AMIN +
+        $setTIMsecs[0].value * ASEC;
+      document.cookie = `TIMsetTime=${TIM.setTime}`;
+      $TIMhour.innerHTML = zeropad($setTIMhours[0].value);
+      $TIMmin.innerHTML = zeropad($setTIMmins[0].value);
+      $TIMsec.innerHTML = zeropad($setTIMsecs[0].value);
+    }
+
+    function moveSetTIM($set, $input) {
+      return (function () {
+        $set.value = $input.value;
+        setTIM();
+      })
+    }
+    [$setTIMhours, $setTIMmins, $setTIMsecs].forEach($set => {
+      const $setNum = $set[0];
+      const $setBar = $set[1];
+      $setNum.oninput = moveSetTIM($setBar, $setNum);
+      $setBar.oninput = moveSetTIM($setNum, $setBar);
+    });
+    $TIMTab.oninput = TIMDisplay;
+    //------------------------------MAIN------------------------------
+    function main() {
+      const now = +new Date();
+      STWMove(now);
+      WATMove();
+      TIMMove(now)
+      display();
+    }
+  </script>
+  <style>
+    * {
+      outline: none;
+      user-select: none;
+    }
+
+    .setting_pointer {
+      border-left: 3px solid var(--mainColor);
+      padding-left: 5px;
+      box-sizing: border-box;
+    }
+
+    body#Sei2423 {
+      --mainColor: #b25452 !important;
+      --bgColor: #d7bebe !important;
+    }
+
+    #Sei2423 .toggle-button::after {
+      background-color: var(--bgColor) !important;
+      border: solid 1px var(--mainColor) !important;
+      box-sizing: border-box;
+      box-shadow: none;
+    }
+
+    #Sei2423 .toggle-button {
+      background-color: var(--bgColor) !important;
+      border: solid 2px !important;
+    }
+
+    #Sei2423 .toggle-button:has(:checked) {
+      background-color: var(--mainColor) !important;
+      border: solid 2px !important;
+    }
+
+    #Sei2423 li.dropdown__item:is(:nth-child(2), :nth-child(3)) {
+      display: none;
+    }
+
+    #Sei2423 li.dropdown__item:is(:nth-child(6), :nth-child(7)) :is(button, label) {
+      background: linear-gradient(90deg, var(--mainColor) 49.5%, var(--bgColor) 49.5%) !important;
+      background-size: 205% 100% !important;
+      overflow: hidden !important;
+      background-position: 0% !important;
+      transition: all 0.7s ease !important;
+      border: var(--mainColor) 1px solid !important;
+      position: relative;
+    }
+
+    #Sei2423 li.dropdown__item:is(:nth-child(6), :nth-child(7)) :is(button, label):hover {
+      background-position: 99.4% !important;
+      color: var(--mainColor);
+      opacity: 100%;
+    }
+
+    .sei_only:not(#Sei2423 .sei_only) {
+      display: none;
+    }
+
+    #countdown {
+      text-align: center;
+      display: none;
+      position: fixed;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      background-color: var(--bgColor);
+      z-index: 6;
+    }
+  </style>
+  <script>
+    let dispTimeOnTab = 0;
+
+    function updateTitle(str) {
+      if (dispTimeOnTab) {
+        document.title = 'Tabatch ' + str;
+      } else {
+        if (document.title != 'Tabatch') {
+          document.title = 'Tabatch';
+        }
+      }
+    }
+    let RTAmode = 0;
+    const $countdown = document.getElementById('countdown');
+
+    function RTAdisplay() {
+      if (STW.time < 0) {
+        const sec = 2 + ~(STW.time / ASEC);
+        if ($countdown.innerHTML != sec) $countdown.innerHTML = sec;
+        if (STW.time < -2990) {
+          $countdown.style.display = 'block';
+        }
+      } else if (STW.time < 10) {
+        $countdown.style.display = 'none';
+      }
+    } {
+      let edition = 0;
+      const body = document.body;
+      const seiEdition = function () {
+        switch (edition) {
+          case 0:
+            body.id = '';
+            break;
+          case 1:
+            body.id = 'Sei2423';
+        }
+      }
+      addEventListener('keydown', e => {
+        e.key == 'S' && e.altKey && e.ctrlKey && e.shiftKey && seiEdition(edition = (edition + 1) % 2);
+      });
+    }
+  </script>
+  <script>
+    const toggle = document.getElementById('toggleBtn');
+    const analogid = document.getElementById('analogid');
+    const digitalid = document.getElementById('digitalid');
+
+    function updateDisplay() {
+      if (toggle.checked) {
+        analogid.style.display = 'flex';
+        digitalid.style.display = 'none';
+      } else {
+        analogid.style.display = 'none';
+        digitalid.style.display = 'block';
+      }
+    }
+
+    toggle.addEventListener('change', updateDisplay);
+
+    // 初期状態（オフ：デジタル表示）
+    updateDisplay();
+  </script>
+</body>
+
+</html>
