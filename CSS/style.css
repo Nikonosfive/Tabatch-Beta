@@ -243,6 +243,10 @@
       cursor: pointer;
     }
 
+    .tab_class:checked{
+      opacity: 60%;
+    }
+
     .ten{
       cursor: pointer;
       position: absolute;
