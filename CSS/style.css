@@ -415,7 +415,7 @@
       margin: 0.7rem;
       text-align: left;
       padding-bottom: 0.5rem;
-      border-bottom: 0.1rem solid color-mix(in srgb, var(--bgColor) 90%, var(--mainColor) 30%);
+      border-bottom: 0.05rem solid color-mix(in srgb, var(--bgColor) 90%, var(--mainColor) 30%);
       border-radius: 0.1rem;
     }
 
