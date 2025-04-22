@@ -54,7 +54,8 @@
     .ananumber {
       position: absolute;
       font-size: 5vmin;
-      font-weight: bold;
+      font-family: inherit;
+      font-weight: inherit;
       transform: translate(-50%, -50%);
     }
     .hand {
