@@ -634,6 +634,8 @@
     .timer-contents {
       font-size: 16vw;
       text-align: center;
+      padding-right: 0px;
+      padding-left: 0px;
       padding: 1rem;
       background-color: var(--bgColor);
     }
