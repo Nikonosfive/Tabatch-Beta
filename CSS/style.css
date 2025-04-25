@@ -637,13 +637,14 @@
       text-align: center;
       padding-right: 0px;
       padding-left: 0px;
-      padding: 1rem;
+      padding: 3rem;
       background-color: var(--bgColor);
     }
 
     .timer-contents-a {
       font-size: 8vw;
       text-align: center;
+      padding: 0;	
     }
 
     .timer-contents-b {
