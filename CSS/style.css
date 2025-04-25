@@ -273,7 +273,7 @@
     }
 
     .WATday {
-      padding-top: 20px;
+      padding-top: 0;
       margin: auto;
       width: auto;
       font-size: 8vw;
@@ -287,7 +287,7 @@
       }
 
       .WATday {
-        padding-top: 20px;
+        padding-top: 0.3rem;
         margin: auto;
         width: auto;
         font-size: 8vw;
@@ -638,7 +638,7 @@
       padding-right: 0px;
       padding-left: 0px;
       padding-top: 3rem;
-      padding-bottom: 1rem;
+      padding-bottom: 1.5rem;
       background-color: var(--bgColor);
     }
 
