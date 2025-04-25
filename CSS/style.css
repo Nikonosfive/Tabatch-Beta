@@ -244,10 +244,6 @@
       cursor: pointer;
     }
 
-    .tab_class:checked{
-      opacity: 60%;
-    }
-
     .ten{
       cursor: pointer;
       position: absolute;
@@ -525,6 +521,7 @@
 
     .tab_class:hover {
       opacity: 100%;
+      filter: grayscale(70%);
     }
     
 
@@ -541,6 +538,10 @@
 
     input:checked+.tab_class+.content_class {
       display: block;
+    }
+
+    input:checked+.tab_class {
+      opacity: 100%;
     }
 
     html {
