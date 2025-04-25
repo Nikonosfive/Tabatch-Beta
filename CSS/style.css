@@ -253,6 +253,7 @@
       position: absolute;
       height: 3rem;
       right: 0.01rem;
+      top: 0px;
     }
 
     .dropdown__btn {
