@@ -252,6 +252,7 @@
       cursor: pointer;
       position: absolute;
       height: 3rem;
+      right: 0.01rem;
     }
 
     .dropdown__btn {
