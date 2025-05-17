@@ -645,6 +645,7 @@
       padding-top: 1.5rem;
       padding-bottom: 1.5rem;
       background-color: var(--bgColor);
+      cursor: pointer;
     }
 
     .timer-contents-a {
