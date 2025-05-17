@@ -670,13 +670,14 @@
     }
 
     .ranges {
-      width: calc(100% - 5rem);
-      height: 0.15rem;
+      width: auto;
+      height: 0.15em;
       appearance: none;
       border-radius: 0.2rem;
       background-color: var(--mainColor);
       margin: 0.2rem;
       cursor: pointer;
+      max-width: calc(100% - 5rem);
     }
 
     .rangesN {
