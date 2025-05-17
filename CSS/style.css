@@ -324,8 +324,8 @@
         top: calc(100svh - 5.5rem);
         width: calc(100vw / 3 - 0.3rem);
         align-content: center;
-        height: 5rem;
-        line-height: 5rem;
+        height: 3rem;
+        line-height: 3rem;
         text-align: center;
         display: block;
         overflow: hidden;
