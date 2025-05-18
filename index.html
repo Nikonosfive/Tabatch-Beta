@@ -358,7 +358,7 @@
             <div class="a-contents">
               <div class="midashi-nodeco">
                 <details>
-                  <summary class="summary-contents" title="情報を開閉する"><a>Information｜</a><a class="inside">Ver.8.00.0()/β1.4(2025.5.18)</a></summary>
+                  <summary class="summary-contents" title="情報を開閉する"><a>Information｜</a><a class="inside">Ver.8.00.0()/β1.5(2025.5.18)</a></summary>
                   <p class="midashi-nodeco"></p>
                   <a class="inside" id="forurl" href="https://www.tadr-tech.info/kikaku/htu" target="_blank" title="使い方">How to use(Ja)</a>｜<a class="inside" id="forurl" href="https://www.tadr-tech.info/blog" target="_blank" title="リリース情報">Release Information</a>｜<a class="inside" id="forurl" href="release.html" target="_blank" title="リリースノート">Release
                     Notes</a>｜<a class="inside">Tabatch by TADR, SEI2423 (INPO)</a>｜<a class="inside">Music by </a><a class="inside" id="forurl" href="https://amachamusic.chagasi.com" target="_blank">甘茶の音楽工房様</a>
@@ -1237,6 +1237,30 @@
     });
   </script>
   <script>
+    let wakeLock = null;
+
+    async function requestWakeLock() {
+      try {
+        if ('wakeLock' in navigator) {
+          wakeLock = await navigator.wakeLock.request('screen');
+          document.getElementById('status').textContent = 'Wake Lock が有効です';
+          console.log('Wake Lock が有効になりました');
+
+          wakeLock.addEventListener('release', () => {
+            console.log('Wake Lock が解除されました');
+            document.getElementById('status').textContent = 'Wake Lock が解除されました（再取得します）';
+            requestWakeLock();
+          });
+        } else {
+          console.warn('Wake Lock API は未サポート');
+          document.getElementById('status').textContent = 'Wake Lock API はこのブラウザでサポートされていません';
+        }
+      } catch (err) {
+        console.error(`Wake Lock エラー: ${err.name} - ${err.message}`);
+        document.getElementById('status').textContent = `Wake Lock エラー: ${err.message}`;
+      }
+    }
+
     function setupWakeLock() {
       requestWakeLock();
 
@@ -1247,19 +1271,13 @@
       });
     }
 
-    function waitForUserInteraction() {
-      const onceOptions = { once: true };
-      window.addEventListener('touchstart', () => {
-        setupWakeLock();
-      }, onceOptions);
-      window.addEventListener('click', () => {
-        setupWakeLock();
-      }, onceOptions);
+    function init() {
+      const onceOpts = { once: true };
+      document.addEventListener('click', setupWakeLock, onceOpts);
+      document.addEventListener('touchstart', setupWakeLock, onceOpts);
     }
 
-    window.addEventListener('load', () => {
-      waitForUserInteraction();
-    });
+    window.addEventListener('load', init);
   </script>
 </body>
 
