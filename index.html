@@ -1236,6 +1236,31 @@
       });
     });
   </script>
+  
+    function setupWakeLock() {
+      requestWakeLock();
+
+      document.addEventListener('visibilitychange', () => {
+        if (document.visibilityState === 'visible') {
+          requestWakeLock();
+        }
+      });
+    }
+
+    function waitForUserInteraction() {
+      const onceOptions = { once: true };
+      window.addEventListener('touchstart', () => {
+        setupWakeLock();
+      }, onceOptions);
+      window.addEventListener('click', () => {
+        setupWakeLock();
+      }, onceOptions);
+    }
+
+    window.addEventListener('load', () => {
+      waitForUserInteraction();
+    });
+  </script>
 </body>
 
 </html>
