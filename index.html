@@ -358,7 +358,7 @@
             <div class="a-contents">
               <div class="midashi-nodeco">
                 <details>
-                  <summary class="summary-contents" title="情報を開閉する"><a>Information｜</a><a class="inside">Ver.8.00.0()/β1.5(2025.5.18)</a></summary>
+                  <summary class="summary-contents" title="情報を開閉する"><a>Information｜</a><a class="inside">Ver.8.00.0()/β1.6(2025.5.19)</a></summary>
                   <p class="midashi-nodeco"></p>
                   <a class="inside" id="forurl" href="https://www.tadr-tech.info/kikaku/htu" target="_blank" title="使い方">How to use(Ja)</a>｜<a class="inside" id="forurl" href="https://www.tadr-tech.info/blog" target="_blank" title="リリース情報">Release Information</a>｜<a class="inside" id="forurl" href="release.html" target="_blank" title="リリースノート">Release
                     Notes</a>｜<a class="inside">Tabatch by TADR, SEI2423 (INPO)</a>｜<a class="inside">Music by </a><a class="inside" id="forurl" href="https://amachamusic.chagasi.com" target="_blank">甘茶の音楽工房様</a>
@@ -443,9 +443,9 @@
               anaclock.appendChild(div);
             });
             for (let i = 0; i < 60; i++) {
-              if (i % 5 !== 0) { // 数字の位置はスキップ
+              if (i % 5 !== 0) { 
                 const angle = (i * 6) * (Math.PI / 180);
-                const x = 40 + Math.sin(angle) * 32; // 数字と同じ半径
+                const x = 40 + Math.sin(angle) * 32; 
                 const y = 40 - Math.cos(angle) * 32;
                 const anatick = document.createElement("div");
                 anatick.className = "anatick";
@@ -714,12 +714,44 @@
       document.cookie = `${targetname}=${targetcolor}`;
     }
     [change_bgColor, change_mainColor].forEach(x => x.addEventListener('change', set_color));
-    document.getElementById('fullScreen').addEventListener('click', function() {
-      document.body.requestFullscreen();
-    });
-    document.getElementById('exitFullScreen').addEventListener('click', function() {
-      document.exitFullscreen();
-    });
+
+    function requestFullscreen(element) {
+  if (element.requestFullscreen) {
+    element.requestFullscreen();
+  } else if (element.webkitRequestFullscreen) { // Safari
+    element.webkitRequestFullscreen();
+  } else if (element.msRequestFullscreen) {
+    element.msRequestFullscreen();
+  }
+}
+
+function exitFullscreen() {
+  if (document.exitFullscreen) {
+    document.exitFullscreen();
+  } else if (document.webkitExitFullscreen) { // Safari
+    document.webkitExitFullscreen();
+  } else if (document.msExitFullscreen) {
+    document.msExitFullscreen();
+  }
+}
+
+document.getElementById('fullScreen').addEventListener('click', function() {
+  requestFullscreen(document.body);
+});
+
+document.getElementById('exitFullScreen').addEventListener('click', function() {
+  exitFullscreen();
+});
+
+
+    
+    //document.getElementById('fullScreen').addEventListener('click', function() {
+     // document.body.requestFullscreen();
+  //  });
+
+  //  document.getElementById('exitFullScreen').addEventListener('click', function() {
+ //     document.exitFullscreen();
+//    });
     $fontSettingBtns.forEach($fontBtn => $fontBtn.addEventListener('click', e => {
       document.cookie = `font=${e.target.nextElementSibling.textContent}`;
     }));
