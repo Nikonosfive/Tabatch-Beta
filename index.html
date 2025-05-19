@@ -358,7 +358,7 @@
             <div class="a-contents">
               <div class="midashi-nodeco">
                 <details>
-                  <summary class="summary-contents" title="情報を開閉する"><a>Information｜</a><a class="inside">Ver.8.00.0()/β1.6(2025.5.19)</a></summary>
+                  <summary class="summary-contents" title="情報を開閉する"><a>Information｜</a><a class="inside">Ver.8.00.0()/β1.7(2025.5.19)</a></summary>
                   <p class="midashi-nodeco"></p>
                   <a class="inside" id="forurl" href="https://www.tadr-tech.info/kikaku/htu" target="_blank" title="使い方">How to use(Ja)</a>｜<a class="inside" id="forurl" href="https://www.tadr-tech.info/blog" target="_blank" title="リリース情報">Release Information</a>｜<a class="inside" id="forurl" href="release.html" target="_blank" title="リリースノート">Release
                     Notes</a>｜<a class="inside">Tabatch by TADR, SEI2423 (INPO)</a>｜<a class="inside">Music by </a><a class="inside" id="forurl" href="https://amachamusic.chagasi.com" target="_blank">甘茶の音楽工房様</a>
@@ -715,34 +715,27 @@
     }
     [change_bgColor, change_mainColor].forEach(x => x.addEventListener('change', set_color));
 
-    function requestFullscreen(element) {
-  if (element.requestFullscreen) {
-    element.requestFullscreen();
-  } else if (element.webkitRequestFullscreen) { // Safari
-    element.webkitRequestFullscreen();
-  } else if (element.msRequestFullscreen) {
-    element.msRequestFullscreen();
-  }
-}
+   document.getElementById('fullScreen').addEventListener('click', function () {
+  const el = document.body;
 
-function exitFullscreen() {
+  if (el.requestFullscreen) {
+    el.requestFullscreen();
+  } else if (el.webkitRequestFullscreen) { // Safari
+    el.webkitRequestFullscreen();
+  } else if (el.msRequestFullscreen) { // IE11
+    el.msRequestFullscreen();
+  }
+});
+
+document.getElementById('exitFullScreen').addEventListener('click', function () {
   if (document.exitFullscreen) {
     document.exitFullscreen();
   } else if (document.webkitExitFullscreen) { // Safari
     document.webkitExitFullscreen();
-  } else if (document.msExitFullscreen) {
+  } else if (document.msExitFullscreen) { // IE11
     document.msExitFullscreen();
   }
-}
-
-document.getElementById('fullScreen').addEventListener('click', function() {
-  requestFullscreen(document.body);
 });
-
-document.getElementById('exitFullScreen').addEventListener('click', function() {
-  exitFullscreen();
-});
-
 
     
     //document.getElementById('fullScreen').addEventListener('click', function() {
