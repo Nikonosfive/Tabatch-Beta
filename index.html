@@ -358,7 +358,7 @@
             <div class="a-contents">
               <div class="midashi-nodeco">
                 <details>
-                  <summary class="summary-contents" title="情報を開閉する"><a>Information｜</a><a class="inside">Ver.8.00.0()/β1.7(2025.5.19)</a></summary>
+                  <summary class="summary-contents" title="情報を開閉する"><a>Information｜</a><a class="inside">Ver.8.00.0()/β1.8(2025.5.19)</a></summary>
                   <p class="midashi-nodeco"></p>
                   <a class="inside" id="forurl" href="https://www.tadr-tech.info/kikaku/htu" target="_blank" title="使い方">How to use(Ja)</a>｜<a class="inside" id="forurl" href="https://www.tadr-tech.info/blog" target="_blank" title="リリース情報">Release Information</a>｜<a class="inside" id="forurl" href="release.html" target="_blank" title="リリースノート">Release
                     Notes</a>｜<a class="inside">Tabatch by TADR, SEI2423 (INPO)</a>｜<a class="inside">Music by </a><a class="inside" id="forurl" href="https://amachamusic.chagasi.com" target="_blank">甘茶の音楽工房様</a>
@@ -443,9 +443,9 @@
               anaclock.appendChild(div);
             });
             for (let i = 0; i < 60; i++) {
-              if (i % 5 !== 0) { 
+              if (i % 5 !== 0) {
                 const angle = (i * 6) * (Math.PI / 180);
-                const x = 40 + Math.sin(angle) * 32; 
+                const x = 40 + Math.sin(angle) * 32;
                 const y = 40 - Math.cos(angle) * 32;
                 const anatick = document.createElement("div");
                 anatick.className = "anatick";
@@ -714,37 +714,31 @@
       document.cookie = `${targetname}=${targetcolor}`;
     }
     [change_bgColor, change_mainColor].forEach(x => x.addEventListener('change', set_color));
-
-   document.getElementById('fullScreen').addEventListener('click', function () {
-  const el = document.body;
-
-  if (el.requestFullscreen) {
-    el.requestFullscreen();
-  } else if (el.webkitRequestFullscreen) { // Safari
-    el.webkitRequestFullscreen();
-  } else if (el.msRequestFullscreen) { // IE11
-    el.msRequestFullscreen();
-  }
-});
-
-document.getElementById('exitFullScreen').addEventListener('click', function () {
-  if (document.exitFullscreen) {
-    document.exitFullscreen();
-  } else if (document.webkitExitFullscreen) { // Safari
-    document.webkitExitFullscreen();
-  } else if (document.msExitFullscreen) { // IE11
-    document.msExitFullscreen();
-  }
-});
-
-    
+    document.getElementById('fullScreen').addEventListener('click', function() {
+      const el = document.body;
+      if (el.requestFullscreen) {
+        el.requestFullscreen();
+      } else if (el.webkitRequestFullscreen) { // Safari
+        el.webkitRequestFullscreen();
+      } else if (el.msRequestFullscreen) { // IE11
+        el.msRequestFullscreen();
+      }
+    });
+    document.getElementById('exitFullScreen').addEventListener('click', function() {
+      if (document.exitFullscreen) {
+        document.exitFullscreen();
+      } else if (document.webkitExitFullscreen) { // Safari
+        document.webkitExitFullscreen();
+      } else if (document.msExitFullscreen) { // IE11
+        document.msExitFullscreen();
+      }
+    });
     //document.getElementById('fullScreen').addEventListener('click', function() {
-     // document.body.requestFullscreen();
-  //  });
-
-  //  document.getElementById('exitFullScreen').addEventListener('click', function() {
- //     document.exitFullscreen();
-//    });
+    // document.body.requestFullscreen();
+    //  });
+    //  document.getElementById('exitFullScreen').addEventListener('click', function() {
+    //     document.exitFullscreen();
+    //    });
     $fontSettingBtns.forEach($fontBtn => $fontBtn.addEventListener('click', e => {
       document.cookie = `font=${e.target.nextElementSibling.textContent}`;
     }));
@@ -955,6 +949,26 @@ document.getElementById('exitFullScreen').addEventListener('click', function () 
     const $TIMmin = document.getElementById('TIMmin');
     const $TIMsec = document.getElementById('TIMsec');
     const audio = new Audio('audio/sekibaku.mp3');
+    let audioReady = false;
+
+    function prepareAudio() {
+      if (!audioReady) {
+        audio.play().then(() => {
+          audio.pause();
+          audio.currentTime = 0;
+          audioReady = true;
+          console.log('Audio prepared.');
+        }).catch((e) => {
+          console.error('音声の初期再生に失敗しました:', e);
+        });
+      }
+    }
+    document.addEventListener('click', prepareAudio, {
+      once: true
+    });
+    document.addEventListener('touchstart', prepareAudio, {
+      once: true
+    });
 
     function TIMMove(now) {
       if (!TIM.moving) return;
@@ -1221,7 +1235,7 @@ document.getElementById('exitFullScreen').addEventListener('click', function () 
     let isAnimating = false;
     toggles.forEach(toggle => {
       toggle.addEventListener('click', () => {
-        if (isAnimating) return; 
+        if (isAnimating) return;
         isAnimating = true;
         const rootFontSize = parseFloat(getComputedStyle(document.documentElement).fontSize);
         const expandedHeightPx = 3 * rootFontSize;
@@ -1263,14 +1277,12 @@ document.getElementById('exitFullScreen').addEventListener('click', function () 
   </script>
   <script>
     let wakeLock = null;
-
     async function requestWakeLock() {
       try {
         if ('wakeLock' in navigator) {
           wakeLock = await navigator.wakeLock.request('screen');
           document.getElementById('status').textContent = 'Wake Lock が有効です';
           console.log('Wake Lock が有効になりました');
-
           wakeLock.addEventListener('release', () => {
             console.log('Wake Lock が解除されました');
             document.getElementById('status').textContent = 'Wake Lock が解除されました（再取得します）';
@@ -1288,7 +1300,6 @@ document.getElementById('exitFullScreen').addEventListener('click', function () 
 
     function setupWakeLock() {
       requestWakeLock();
-
       document.addEventListener('visibilitychange', () => {
         if (document.visibilityState === 'visible') {
           requestWakeLock();
@@ -1297,11 +1308,12 @@ document.getElementById('exitFullScreen').addEventListener('click', function () 
     }
 
     function init() {
-      const onceOpts = { once: true };
+      const onceOpts = {
+        once: true
+      };
       document.addEventListener('click', setupWakeLock, onceOpts);
       document.addEventListener('touchstart', setupWakeLock, onceOpts);
     }
-
     window.addEventListener('load', init);
   </script>
 </body>
